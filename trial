@@ -1,0 +1,98 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class ToDoListManager {
+    // Inner class to represent a Task
+    static class Task {
+        String description;
+        boolean isCompleted;
+
+        public Task(String description) {
+            this.description = description;
+            this.isCompleted = false;
+        }
+
+        public void markCompleted() {
+            this.isCompleted = true;
+        }
+
+        @Override
+        public String toString() {
+            return (isCompleted ? "[Completed] " : "[Pending] ") + description;
+        }
+    }
+
+    // Main class to manage the to-do list
+    public static void main(String[] args) {
+        ArrayList<Task> tasks = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nTo-Do List Manager:");
+            System.out.println("1. Add Task");
+            System.out.println("2. View Tasks");
+            System.out.println("3. Mark Task as Completed");
+            System.out.println("4. Delete Task");
+            System.out.println("5. Exit");
+            System.out.print("Choose an option: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    // Add a new task
+                    System.out.print("Enter task description: ");
+                    String description = scanner.nextLine();
+                    tasks.add(new Task(description));
+                    System.out.println("Task added.");
+                    break;
+
+                case 2:
+                    // View all tasks
+                    if (tasks.isEmpty()) {
+                        System.out.println("No tasks available.");
+                    } else {
+                        System.out.println("Tasks:");
+                        for (int i = 0; i < tasks.size(); i++) {
+                            System.out.println((i + 1) + ". " + tasks.get(i));
+                        }
+                    }
+                    break;
+
+                case 3:
+                    // Mark a task as completed
+                    System.out.print("Enter task number to mark as completed: ");
+                    int taskNumberToComplete = scanner.nextInt();
+                    if (taskNumberToComplete > 0 && taskNumberToComplete <= tasks.size()) {
+                        tasks.get(taskNumberToComplete - 1).markCompleted();
+                        System.out.println("Task marked as completed.");
+                    } else {
+                        System.out.println("Invalid task number.");
+                    }
+                    break;
+
+                case 4:
+                    // Delete a task
+                    System.out.print("Enter task number to delete: ");
+                    int taskNumberToDelete = scanner.nextInt();
+                    if (taskNumberToDelete > 0 && taskNumberToDelete <= tasks.size()) {
+                        tasks.remove(taskNumberToDelete - 1);
+                        System.out.println("Task deleted.");
+                    } else {
+                        System.out.println("Invalid task number.");
+                    }
+                    break;
+
+                case 5:
+                    // Exit the program
+                    System.out.println("Exiting To-Do List Manager.");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
